@@ -28,7 +28,7 @@ app.use(cookieParser());
 // app.use(session({ secret: "Some secret" })); //Some secret should be replaced with some real word ...
 
 // Making a public folder ...
-app.use(express.static(__dirname + '/public'));
+app.use(express.static(__dirname + '/dist'));
 
 // Using a View engine ...
 app.set('view engine', 'pug');
@@ -59,6 +59,8 @@ app.get('/', (req, res) => {
     res.send('Home page');
 });
 
-app.listen(3000, () => {
-    console.log('Listing to port 3000; ');
+let port = process.env.PORT || 3000;
+app.set('port', port);
+app.listen(port, () => {
+    console.log('Listing to port ' + port );
 });

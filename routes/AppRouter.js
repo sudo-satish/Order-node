@@ -11,9 +11,9 @@ const { AuthRouters } = require('./Auth/AuthRouters');
 const ItemRouters = require('./Product/ItemRouters').Routers;
 const PaymentRouters = require('./Order/PaymentRouters').Routers;
 
-AppRouter.get('/', (req, res) => {
-    res.send({route:'Home page'});
-});
+// AppRouter.get('/', (req, res) => {
+//     res.send({route:'Home page'});
+// });
 
 // AppRouter.use('/playground', PlaygroundRoutes);
 // AppRouter.use('/user', UserRoutes);
@@ -23,5 +23,7 @@ AppRouter.use('/auth', AuthRouters);
 // AppRouter.use('/order', OrderRouters);
 AppRouter.use('/product/item', ItemRouters);
 AppRouter.use('/payment', PaymentRouters);
-
+AppRouter.get('*', (req, res) => {
+    res.write(__dirname + '/dist/index.html');
+});
 module.exports = { AppRouter };
