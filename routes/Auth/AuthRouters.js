@@ -8,7 +8,9 @@ AuthRouters.use((req, res, next) => {
     //res.send('Default Req Handler.');
 });
 AuthRouters.get('/', (req, res) => {
-    res.render('auth/login'); // 
+
+
+    // res.render('auth/login'); // 
 });
 AuthRouters.get('/login', (req, res) => {
     res.render('auth/login'); // 
@@ -25,17 +27,34 @@ AuthRouters.post('/logout', (req, res) => {
 });
 
 AuthRouters.get('/signup', (req, res) => {
-    res.render('auth/signup');
-});
-AuthRouters.post('/signup', (req,res) => {
+ 
+
     var body = _.pick(req.body, ['email', 'password', 'type']);
-    body.type= 'user';
-    
+    body.type = 'user';
+
     var user = new userModel(body);
     user.save().then(() => {
         return user.generateAuthToken();
     }).then((token) => {
         res.header('x-auth', token).send(user.toResJson());
+    }).catch((e) => {
+        res.status(400).send(e);
+    });
+//     res.render('auth/signup');
+});
+
+AuthRouters.post('/signup', (req,res) => {
+    var body = _.pick(req.body, ['email', 'password', 'type']);
+    
+    body.type = 'user';
+    
+    console.log(body);
+    
+    var user = new userModel(body);
+    user.save().then(() => {
+        return user.generateAuthToken();
+    }).then((token) => {
+        res.header('x-auth', token).send(user);
     }).catch((e) => {
         res.status(400).send(e);
     });
@@ -58,24 +77,26 @@ AuthRouters.get('/check-auth', (req, res) => {
     res.send(JSON.stringify(req.session.user));
     // res.render('auth/login'); // 
 });
-AuthRouters.post('/login', (req, res) => {
+AuthRouters.post('/signin', (req, res) => {
     var {email,password} = _.pick(req.body, ['email','password']);
 
     console.log('Id => ', email, ', Password => ', password);
     userModel.findByEmailPassword(email, password).then((data) => {
 
         if (!data) {
-            req.session.user = data;
-            res.render('auth/login', {error:'User Not found !!! '});
+            // req.session.user = data;
+            // res.render('auth/login', {error:'User Not found !!! '});
+            res.send({error:'User Not found !!! '});
             //return Promise.reject('User not found !!');
         } else {
-            req.session.user = data;
-            res.render('auth/login',{message:'You are login now !!! '});
+            // req.session.user = data;
+            res.send(data);
         }
     }).catch((err) => {
         console.log(err);
         //res.status(401).send(err);
-        res.status(401).render('auth/login', {error:'Some technical error happend!!!'});
+        res.status(401).send(err);
+        // res.status(401).render('auth/login', {error:'Some technical error happend!!!'});
         //res.render('users/index');
     });
 

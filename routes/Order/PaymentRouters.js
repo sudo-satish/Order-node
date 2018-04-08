@@ -8,7 +8,7 @@ Routers.use((req, res, next) => {
 });
 
 Routers.get('/', (req, res) => {
-    res.send('Payment routes home get');
+    res.send({name:'Satish'});
     //res.render('vaccination/index', { childName: 'satish', dob: '9-Dec-1995', clientName: 'FlexiEle', name: 'Girijesh Gupta', phoneNumber: '9958000332', emailId: 'satishkumr001@gmail.com', days: '90' });
 });
 
@@ -19,7 +19,7 @@ Routers.get('/search', (req, res) => {
 });
 
 Routers.use((err, req, res, next) => {
-    res.send('This is Auth default error handler', err); // TODO : Make a error logger
+    res.send('This is Payment  default error handler', err); // TODO : Make a error logger
     //return next(err);
 });
 module.exports = { Routers };
