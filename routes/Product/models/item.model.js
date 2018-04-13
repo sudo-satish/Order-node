@@ -56,7 +56,7 @@ userSchema.methods.generateAuthToken = function () {
 }
 */
 
-mongoose.connect('mongodb://127.0.0.1:27017/my_db');
+// mongoose.connect('mongodb://127.0.0.1:27017/my_db');
 
 var itemModel = mongoose.model('item', itemSchema);
 module.exports = { itemSchema, itemModel }

@@ -12,6 +12,12 @@ Routers.get('/', (req, res) => {
     //res.render('vaccination/index', { childName: 'satish', dob: '9-Dec-1995', clientName: 'FlexiEle', name: 'Girijesh Gupta', phoneNumber: '9958000332', emailId: 'satishkumr001@gmail.com', days: '90' });
 });
 
+Routers.post('/', (req, res) => {
+    console.log(req.body);
+    
+    res.send(req.body);
+});
+
 Routers.get('/search', (req, res) => {
     //res.render('vaccination/search', { childName: 'satish', dob: '9-Dec-1995', clientName: 'FlexiEle', name: 'Girijesh Gupta', phoneNumber: '9958000332', emailId: 'satishkumr001@gmail.com', days: '90' });
     res.render('vaccination/search', { childName: 'satish', dob: '9-Dec-1995' });
