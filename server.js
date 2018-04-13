@@ -52,7 +52,6 @@ app.use((req, res, next) => {
     next();
 });
 
-
 app.use('/', AppRouter);
 
 app.get('/', (req, res) => {
