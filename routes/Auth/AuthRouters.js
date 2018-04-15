@@ -1,6 +1,7 @@
 const express = require('express');
 const AuthRouters = express.Router();
 const { userModel } = require('../../models/users.model');
+const { ClientModel } = require('../../models/client.model');
 const _ = require('lodash');
 
 AuthRouters.use((req, res, next) => {
@@ -106,6 +107,50 @@ AuthRouters.post('/signin', (req, res) => {
 
    // var id = _.pick(req, ['id']);
     //res.send('Post user');
+});
+
+AuthRouters.post('/client', (req, res) => {
+
+    var body = _.pick(req.body, ['phone', 'email', 'name', 'active', 'owner_name', 'owner_no']);
+    var client = new ClientModel(body);
+
+    client.save(body).then(client => {
+        res.send(client);
+    }).catch((err) => {
+        console.log('Client save err => ', err);
+        res.send(err);
+    });
+});
+
+AuthRouters.put('/client', (req, res) => {
+
+    var _id = _.pick(req.body, ['_id']);
+    console.log('Id => ', _id);
+    
+    var body = _.pick(req.body, [ 'phone', 'email', 'name', 'active', 'owner_name', 'owner_no']);
+    console.log('Before Update => ', body);
+
+    ClientModel.update( _id, body, { multi: true } ).then(client => {
+        console.log('After Update => ', client);
+        res.send(client);
+    }).catch(err => {
+        res.send(err);
+    });
+});
+
+AuthRouters.get('/client', (req, res) => {
+    console.log('All Clients requested ');
+    
+    ClientModel.find({}).then((clients) => {
+        console.log('cLietns => ',clients);
+        
+        res.send(clients);
+    }).catch(err => {
+        console.log('Err => ', err);
+        
+        res.send(err);
+    });
+
 });
 
 AuthRouters.use((err, req, res, next) => {
